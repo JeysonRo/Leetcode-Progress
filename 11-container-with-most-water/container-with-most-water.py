@@ -1,7 +1,4 @@
 class Solution:
-    def area(height, p1, p2):
-        return min(height[p1], height[p2]) * (p2 - p1)
-
     def maxArea(self, height: List[int]) -> int:
         p1 = 0
         p2 = len(height)-1
