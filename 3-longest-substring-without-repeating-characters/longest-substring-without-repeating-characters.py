@@ -9,15 +9,15 @@ class Solution:
         p2 = 0
         res = 1
         cur = 0
-        bank = {}
+        bank = set()
 
         while p2 < len(s):
             if s[p2] not in bank:
-                bank[s[p2]] = p2
+                bank.add(s[p2])
                 p2 += 1
                 cur += 1
             else:
-                del bank[s[p1]]
+                bank.remove(s[p1])
                 p1 += 1
                 cur -= 1
             res = max(res, cur)
