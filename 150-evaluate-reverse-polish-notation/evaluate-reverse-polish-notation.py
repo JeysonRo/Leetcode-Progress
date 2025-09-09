@@ -3,7 +3,6 @@ class Solution:
         stack = deque()
 
         for i in tokens:
-            # print(ind, i, stack)
             if i == '+':
                 p2 = stack.pop()
                 p1 = stack.pop()
