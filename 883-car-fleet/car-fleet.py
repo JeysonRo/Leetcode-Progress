@@ -7,13 +7,11 @@ class Solution:
         fleets = 0
         fleetarrival = 0
 
-        print(cars)
         for i in cars:
             arrival = (target - i[0]) / i[1]
             if arrival > fleetarrival:
                 fleetarrival = arrival
                 fleets += 1
-            print(arrival, fleets)
         
         return fleets
 
