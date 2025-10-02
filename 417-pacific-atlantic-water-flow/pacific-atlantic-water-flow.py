@@ -3,20 +3,15 @@ class Solution:
         rows = len(heights)
         cols = len(heights[0])
         res = []
-        visited = {} # visited[key][0] = True Pacific
-                     # visited[key][1] = True Atlantic
         pacific = set()
         atlantic = set()
-        # q = deque()
-        # q.append((rows, 0))
-        # q.append((0, cols))
 
         def dfsp(coord):
             r = coord[0]
             c = coord[1]
-            if r < 0 or c < 0: # Pacific
+            if r < 0 or c < 0:
                 return
-            if r >= rows or c >= cols: # Atlantic out of bounds
+            if r >= rows or c >= cols: # out of bounds
                 return
             if coord in pacific:
                 return
@@ -32,13 +27,12 @@ class Solution:
             if c < cols-1 and heights[r][c+1] >= curheight:
                 dfsp((r,c+1))
             
-        
         def dfsa(coord):
             r = coord[0]
             c = coord[1]
-            if r < 0 or c < 0: # Pacific
+            if r < 0 or c < 0:
                 return
-            if r >= rows or c >= cols: # Atlantic out of bounds
+            if r >= rows or c >= cols: # out of bounds
                 return
             if coord in atlantic:
                 return
