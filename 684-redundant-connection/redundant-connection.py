@@ -20,7 +20,7 @@ class Solution:
                     node2i = i
             # print(node1i, node1, node2i, node2)
             if node1i == node2i:
-                res = [node1, node2]
+                return [node1, node2]
             elif node1i < node2i:
                 trees[node1i].update(trees[node2i])
                 trees[node2i] = set()
@@ -29,4 +29,4 @@ class Solution:
                 trees[node1i] = set()
             # print(trees)
         
-        return res
+        # return res
