@@ -1,32 +1,28 @@
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        nodes = set()
-        for i, j in edges:
-            nodes.add(i)
-            nodes.add(j)
-        # print(nodes)
-        trees = [set() for i in range(len(nodes)+1)]
-        for i in nodes:
-            trees[i].add(i)
-        # print(trees)
+        N = len(edges)
+        parent = [i for i in range(N+1)]
+        rank = [1] * (N+1)
 
-        for node, neighbor in edges:
-            for i, tree in enumerate(trees):
-                if node in tree:
-                    node1 = node
-                    node1i = i
-                if neighbor in tree:
-                    node2 = neighbor
-                    node2i = i
-            # print(node1i, node1, node2i, node2)
-            if node1i == node2i:
-                return [node1, node2]
-            elif node1i < node2i:
-                trees[node1i].update(trees[node2i])
-                trees[node2i] = set()
-            else:
-                trees[node2i].update(trees[node1i])
-                trees[node1i] = set()
-            # print(trees)
+        def find(n):
+            if n != parent[n]:
+                parent[n] = find(parent[n])
+            return parent[n]
         
-        # return res
+        def union(n1, n2):
+            p1, p2 = find(n1), find(n2)
+            if p1 == p2:
+                return False
+
+            if rank[p1] > rank[p2]:
+                parent[p2] = p1
+                rank[p1] += rank[p2]
+            else:
+                parent[p1] = p2
+                rank[p2] += rank[p1]
+
+            return True
+        
+        for n1, n2 in edges:
+            if not union(n1, n2):
+                return [n1, n2]
