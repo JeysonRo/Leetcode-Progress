@@ -5,22 +5,22 @@ class Solution:
 
         p1 = p2 = 0
 
-        cache = {} # cache[i, p1, p2] = True or False
+        cache = {} # cache[p1, p2] = True or False
 
-        def dfs(i, p1, p2):
-            if (i, p1, p2) in cache:
-                return cache[(i, p1, p2)]
+        def dfs(p1, p2):
+            if (p1, p2) in cache:
+                return cache[(p1, p2)]
             res1 = res2 = False
             if p1 >= len(s1) and p2 >= len(s2):
                 return True
             if p1 < len(s1):
-                if s1[p1] == s3[i]:
-                    cache[i+1, p1+1, p2] = dfs(i+1, p1+1, p2)
-                    res1 = cache[i+1, p1+1, p2]
+                if s1[p1] == s3[p1+p2]:
+                    cache[p1+1, p2] = dfs(p1+1, p2)
+                    res1 = cache[p1+1, p2]
             if p2 < len(s2):
-                if s2[p2] == s3[i]:
-                    cache[i+1, p1, p2+1] = dfs(i+1, p1, p2+1)
-                    res2 = cache[i+1, p1, p2+1]
+                if s2[p2] == s3[p1+p2]:
+                    cache[p1, p2+1] = dfs(p1, p2+1)
+                    res2 = cache[p1, p2+1]
             return res1 or res2
         
-        return dfs(0, 0, 0)
+        return dfs(0, 0)
