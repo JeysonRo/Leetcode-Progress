@@ -1,21 +1,19 @@
 class Solution:
     def change(self, amount: int, coins: List[int]) -> int:
-        if amount == 0:
-            return 1
         
-        dp = {} # (index, value)
+        dp = [[0] * (len(coins) + 1) for i in range(amount + 1)]
+        dp[0] = [1] * (len(coins) + 1)
+        # dp[amount][denominations]
 
-        def dfs(i, v):
-            if v == amount:
-                return 1
-            if v > amount:
-                return 0
-            if i == len(coins):
-                return 0
-            if (i, v) in dp:
-                return dp[(i, v)]
-            
-            dp[(i, v)] = dfs(i, v + coins[i]) + dfs(i+1, v)
-            return dp[(i, v)]
-            
-        return dfs(0, 0)
+        for a in range(1, amount + 1):
+            for d in range(len(coins)):
+                if coins[d] > a:
+                    if d == 0:
+                        continue
+                    dp[a][d] = dp[a][d-1]
+                else:
+                    if d == 0:
+                        dp[a][d] = dp[a - coins[d]][d]
+                    else:
+                        dp[a][d] = dp[a][d-1] + dp[a - coins[d]][d]
+        return dp[amount][len(coins)-1]
