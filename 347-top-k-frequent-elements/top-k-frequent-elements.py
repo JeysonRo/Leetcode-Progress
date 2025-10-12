@@ -1,18 +1,26 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        freq = [[] for i in range(len(nums) + 1)]
-        bank = {}
-
-        for i in nums:
-            bank[i] = 1 + bank.get(i, 0)
-
-        for key, val in bank.items():
-            freq[val].append(key)
         
+        freq = {1:[]} # freq[frequency] = num
+        track = {} # track[num] = freq
+
+        for num in nums:
+            if num in track:
+                freq[track[num]].remove(num)
+                track[num] += 1
+                if track[num] in freq:
+                    freq[track[num]].append(num)
+                else:
+                    freq[track[num]]= [num]
+            else:
+                track[num] = 1
+                freq[track[num]].append(num)
+        print(freq)
+        count = 0
         res = []
-        for i in range(len(freq) - 1, -1, -1):
-            for n in freq[i]:
-                res.append(n)
-                if len(res) == k:
+        for numlist in range(len(freq), 0, -1):
+            for i in freq[numlist]:
+                count += 1
+                res.append(i)
+                if count == k:
                     return res
-        return 
