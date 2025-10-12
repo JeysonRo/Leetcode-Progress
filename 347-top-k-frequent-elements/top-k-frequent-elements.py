@@ -6,22 +6,23 @@ class Solution:
 
         for num in nums:
             if num in track:
-                freq[track[num]].remove(num)
                 track[num] += 1
-                if track[num] in freq:
-                    freq[track[num]].add(num)
-                else:
-                    freq[track[num]] = set()
-                    freq[track[num]].add(num)
             else:
                 track[num] = 1
-                freq[track[num]].add(num)
-        print(freq)
+        
+        for key in track.keys():
+            if track[key] in freq:
+                freq[track[key]].add(key)
+            else:
+                freq[track[key]] = set()
+                freq[track[key]].add(key)
+
         count = 0
         res = []
-        for numlist in range(len(freq), 0, -1):
-            for i in freq[numlist]:
-                count += 1
-                res.append(i)
-                if count == k:
-                    return res
+        for num in range(len(nums), 0, -1):
+            if num in freq:
+                for i in freq[num]:
+                    count += 1
+                    res.append(i)
+                    if count == k:
+                        return res
