@@ -17,7 +17,6 @@ class Solution:
 
         if gap != n:
             return head.next
-        print(pregapNode.val)
         pregapNode.next = pregapNode.next.next
 
         return head
