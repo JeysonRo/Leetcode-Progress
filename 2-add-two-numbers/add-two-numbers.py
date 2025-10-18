@@ -28,8 +28,5 @@ class Solution:
                 num = num // 10
                 prev = node
             return head
-        num1 = listToint(l1)
-        num2 = listToint(l2)
-        result = num1 + num2
-        print(num1, num2, result)
-        return intTolist(num1 + num2)
+            
+        return intTolist(listToint(l1) + listToint(l2))
