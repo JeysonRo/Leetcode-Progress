@@ -2,7 +2,6 @@ class Solution:
     def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
         distance = []
         table = {}
-        heapq.heapify(distance)
 
         for i, vals in enumerate(points):
             x = vals[0]
@@ -12,7 +11,8 @@ class Solution:
                 table[val].append(i)
             else:
                 table[val] = [i]
-            heapq.heappush(distance, val)
+            distance.append(val)
+        heapq.heapify(distance)
         
         res = []
         count = 0
