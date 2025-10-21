@@ -4,8 +4,7 @@ class Solution:
 
         for x, y in points:
             val = (x**2 + y**2)
-            distance.append([val, x, y])
-        heapq.heapify(distance)
+            heapq.heappush(distance, [val, x, y])
         
         res = []
         count = 0
