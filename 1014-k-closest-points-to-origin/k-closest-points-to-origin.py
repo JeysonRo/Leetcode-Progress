@@ -7,7 +7,7 @@ class Solution:
         for i, vals in enumerate(points):
             x = vals[0]
             y = vals[1]
-            val = sqrt(x**2 + y**2)
+            val = (x**2 + y**2)
             if val in table:
                 table[val].append(i)
             else:
