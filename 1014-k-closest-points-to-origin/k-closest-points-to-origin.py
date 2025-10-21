@@ -4,12 +4,12 @@ class Solution:
 
         for x, y in points:
             val = (x**2 + y**2)
-            heapq.heappush(distance, [val, x, y])
+            distance.append([val, x, y])
+        heapq.heapify(distance)
         
         res = []
-        count = 0
-        while count < k:
-            count += 1
+        while k > 0:
+            k -= 1
             val,x,y = heapq.heappop(distance)
             res.append([x,y])
         
