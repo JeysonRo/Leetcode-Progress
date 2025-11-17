@@ -1,23 +1,28 @@
 class Solution:
     def trap(self, height: List[int]) -> int:
         l = 0
-        r = len(height) - 1
-        lmax = rmax = 0
-        water = 0
-        step = 0
-
-        while l < r:
-            step += 1
-            print("step: " + str(step) + "\nl: " + str(l) + "\nr: " + str(r) + "\nwater: " + str(water) + "\n")
-
-            lmax = max(lmax, height[l])
-            rmax = max(rmax, height[r])
-
-            if height[l] <= height[r]:
-                l += 1
-                water += max(0, min(lmax, rmax) - height[l])
+        r = 0
+        res = 0
+        buffer = 0
+        while r < len(height):
+            if height[r] >= height[l]:
+                l = r
+                res += buffer
+                buffer = 0
+            elif height[r] < height[l]:
+                buffer += height[l] - height[r]
+            r += 1
+        
+        stop = l
+        l = r = len(height) - 1
+        buffer = 0
+        while l >= stop:
+            if height[l] >= height[r]:
+                r = l
+                res += buffer
+                buffer = 0
             else:
-                r -= 1
-                water += max(0, min(lmax, rmax) - height[r])
-            
-        return water
+                buffer += height[r] - height[l]
+            l -= 1
+        
+        return res
