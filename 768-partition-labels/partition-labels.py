@@ -8,11 +8,13 @@ class Solution:
         i = 0
         r = 0
         res = []
+        sumres = 0
 
         while i < len(s):
             r = max(book[s[i]], r)
             if i == r:
-                res.append(i + 1 - sum(res))
+                res.append(i + 1 - sumres)
+                sumres += res[-1]
             i += 1
         
         return res
