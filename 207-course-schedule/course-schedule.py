@@ -1,31 +1,34 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        premap = {}
+        adj = {i : [] for i in range(numCourses)}
+        courses_taken = set()
+
+        for a, b in prerequisites:
+            adj[a].append(b)
         
-        for num in range(numCourses):
-            if num not in premap:
-                premap[num] = []
-
-        for crs, req in prerequisites:
-            if crs in premap:
-                premap[crs].append(req)
-
-        visitSet = set()
-        def dfs(course: int):
-            if course in visitSet:
+        def dfs(cur, chain) -> bool:
+            nonlocal courses_taken
+            if cur in chain:
                 return False
-            if premap[course] == []:
+            chain.add(cur)
+            while adj[cur]:
+                prereq = adj[cur].pop()
+                res = dfs(prereq, chain)
+                if not res:
+                    return False
+            courses_taken = courses_taken.union(chain)
+            chain.remove(cur)
+            return True
+
+        for key in adj.keys():
+            if key in courses_taken:
+                continue
+            res = dfs(key, set())
+            if not res:
+                return False
+            if len(courses_taken) == numCourses:
                 return True
 
-            visitSet.add(course)
-            for i in premap[course]:
-                if not dfs(i):
-                    return False
-            visitSet.remove(course)
-            premap[course] = []
+        if len(courses_taken) == numCourses:
             return True
-            
-        for i in range(numCourses):
-            if not dfs(i):
-                return False
-        return True
+        return False
