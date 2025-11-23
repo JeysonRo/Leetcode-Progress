@@ -3,13 +3,13 @@ class Solution:
         
         l = 0
         r = len(numbers) - 1
-        while l < r:
-            if numbers[l] + numbers[r] == target:
-                return [l + 1, r + 1]
-            elif numbers[l] + numbers[r] > target:
-                r -= 1
-            elif numbers[l] + numbers[r] < target:
-                l += 1
 
-        print("no match \n l: " + str(l) + "\n r: " + str(r))
-        return [0,0]
+        while l < r:
+            num_sum = numbers[l] + numbers[r]
+            if num_sum == target:
+                return [l+1, r+1]
+            elif num_sum > target:
+                r -= 1
+            elif num_sum < target:
+                l += 1
+        return []
