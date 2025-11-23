@@ -1,18 +1,19 @@
 class Solution:
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
-        l = 1
+        # binary search
+
         r = max(piles)
-        res = r
-
+        lowest_k = r
+        l = 1
         while l <= r:
-            k = (r - l) // 2 + l
-            t = 0
-            for i in piles:
-                t += math.ceil(i/k)
-            if t > h:
-                l = k + 1
-            elif t <= h:
-                r = k - 1
-                res = k
-        return res
-
+            k = (r-l) // 2 + l
+            hours_spent = 0
+            for e in piles:
+                hours_spent += math.ceil(e / k)
+            if hours_spent > h:
+                l = k+1
+            else:
+                r = k-1
+                lowest_k = min(lowest_k, k)
+        
+        return lowest_k
