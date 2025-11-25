@@ -8,6 +8,7 @@ class Solution:
             if (m,n) in cache:
                 return cache[m,n]
             if m >= len(matrix) or n >= len(matrix[0]) or matrix[m][n] == "0":
+                cache[m,n] = 0
                 return 0
             else:
                 cache[m,n] = min(square_size(m+1,n), square_size(m,n+1), square_size(m+1,n+1)) + 1
