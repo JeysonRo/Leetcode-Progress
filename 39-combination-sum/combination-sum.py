@@ -2,17 +2,17 @@ class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
         res = []
         path = []
-        def combination(i, path, target):
+        def combination(i, target):
             if i >= len(candidates):
                 return
             if target > 0:
-
-                combination(i, path + [candidates[i]], target - candidates[i])
-
-                combination(i+1, path, target)
+                path.append(candidates[i])
+                combination(i, target - candidates[i])
+                path.pop()
+                combination(i+1, target)
             elif target == 0:
                 res.append(path.copy())
             return
         
-        combination(0, path, target)
+        combination(0, target)
         return res
