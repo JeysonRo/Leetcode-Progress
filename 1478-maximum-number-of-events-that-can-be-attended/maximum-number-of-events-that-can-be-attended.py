@@ -1,6 +1,5 @@
 class Solution:
     def maxEvents(self, events: List[List[int]]) -> int:
-        # O(n) where n is the amount of days from the start of the first event to the end of the last event
         q = []
         events.sort()
         res = 0
@@ -21,3 +20,6 @@ class Solution:
                 res += 1
         
         return res
+
+        # Time O(nlogn + nlogn + nlogn)
+        # Space O(n)
