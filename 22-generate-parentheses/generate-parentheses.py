@@ -1,20 +1,21 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        stack = []
         res = []
-
-        def pa(openp: int, closep: int):
-            if openp == closep == 0:
-                res.append("".join(stack))
+        def backtrack(n, stack, combination):
+            if n == 0:
+                while stack > 0:
+                    stack -= 1
+                    combination += ")"
+                res.append(combination)
                 return
-            if openp > 0:
-                stack.append("(")
-                pa(openp - 1, closep)
-                stack.pop()
-            if closep > openp:
-                stack.append(")")
-                pa(openp, closep - 1)
-                stack.pop()
+            
+            if stack == 0:
+                backtrack(n-1, stack+1, combination + "(")
+            else:
+                backtrack(n-1, stack+1, combination + "(")
+                backtrack(n, stack-1, combination + ")")
         
-        pa(n, n)
+            return
+
+        backtrack(n, 0, '')
         return res
