@@ -1,10 +1,17 @@
 class Solution:
     def majorityElement(self, nums: List[int]) -> int:
-        count = {}
+        # Boyer-Moore algorithm
         res = nums[0]
-        for i in nums:
-            count[i] = count.get(i, 0) + 1
-            if count[i] > count[res]:
-                res = i
-        
+        count = 0
+        for num in nums:
+            if num == res:
+                count += 1
+            else:
+                count -= 1
+            if count < 0:
+                res = num
+                count = 1
         return res
+
+        # time: O(n)
+        # space: O(1)
