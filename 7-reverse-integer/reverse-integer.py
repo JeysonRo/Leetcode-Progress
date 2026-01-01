@@ -11,9 +11,9 @@ class Solution:
             digit = x % 10
             x = x // 10
 
-            if positive and res >  MAX // 10:
+            if positive and (res >  MAX // 10 or res == MAX // 10 and digit > MAX % 10):
                 return 0
-            if not positive and res > MIN // 10:
+            if not positive and (res > MIN // 10 or res == MIN // 10 and digit > MIN % 10):
                 return 0
 
             res = res * 10 + digit
