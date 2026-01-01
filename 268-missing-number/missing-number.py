@@ -4,9 +4,9 @@ class Solution:
         res = 0
 
         for i in range(len(nums) + 1):
-            res += i
+            res ^= i
         
         for n in nums:
-            res -= n
+            res ^= n
         
         return res
