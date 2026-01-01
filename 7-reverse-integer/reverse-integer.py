@@ -1,8 +1,21 @@
 class Solution:
     def reverse(self, x: int) -> int:
-        res = ''.join(reversed(str(x)))
-        print(res)
-        if res[-1] == "-":
-            res = "-" + res[:-1]
-        res = int(res)
-        return res if res >= -2**31 and res < 2**31 else 0 
+        MIN = 2147483648
+        MAX = 2147483647
+
+        positive = x >= 0
+        x = abs(x)
+        res = 0
+
+        while x > 0:
+            digit = x % 10
+            x = x // 10
+
+            if positive and res >  MAX // 10:
+                return 0
+            if not positive and res > MIN // 10:
+                return 0
+
+            res = res * 10 + digit
+
+        return res if positive else -res
