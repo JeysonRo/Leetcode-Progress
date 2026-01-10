@@ -12,27 +12,27 @@ class Node:
 
 class Solution:
     def construct(self, grid: List[List[int]]) -> 'Node':
+        def sameLeaf(topLeft, topRight, bottomLeft, bottomRight):
+            return (topLeft.isLeaf and 
+                    topRight.isLeaf and 
+                    bottomLeft.isLeaf and 
+                    bottomRight.isLeaf and 
+                    topLeft.val == topRight.val and 
+                    topRight.val == bottomLeft.val and 
+                    bottomLeft.val == bottomRight.val)
 
-        def createNode(r, c, width):
-            sameLeaf = True
-            for i in range(r, r + width):
-                for j in range(c, c + width):
-                    if grid[i][j] != grid[r][c]:
-                        sameLeaf = False
-                        break
-                if not sameLeaf:
-                    break
-
-            if sameLeaf:
-                val = grid[i][j]
-                return Node(val, True)
-
+        def createNode(x, y, width):
+            if width == 1:
+                return Node(grid[x][y] == 1, True, None, None, None, None)
             val = True
             isLeaf = False
-            topLeft = createNode(r, c, width // 2)
-            topRight = createNode(r, c + width // 2, width // 2)
-            bottomLeft = createNode(r + width // 2, c, width // 2)
-            bottomRight = createNode(r + width // 2, c + width // 2, width // 2)
+            topLeft = createNode(x, y, width // 2)
+            topRight = createNode(x, y + width // 2, width // 2)
+            bottomLeft = createNode(x + width // 2, y, width // 2)
+            bottomRight = createNode(x + width // 2, y + width // 2, width // 2)
+            if sameLeaf(topLeft, topRight, bottomLeft, bottomRight):
+                val = topLeft.val
+                return Node(val, True, None, None, None, None)
             
             return Node(val, isLeaf, topLeft, topRight, bottomLeft, bottomRight)
         
