@@ -13,7 +13,13 @@ class UnionFind:
         parentb = self.find(b)
         if parenta == parentb:
             return False
-        self.parent[parentb] = parenta # ignoring rank
+        if self.rank[parenta] > self.rank[parentb]:
+            self.parent[parentb] = parenta
+            self.rank[parenta] += self.rank[parentb]
+        else:
+            self.parent[parenta] = parentb
+            self.rank[parentb] += self.rank[parenta]
+            
         return True
 
 class Solution:
