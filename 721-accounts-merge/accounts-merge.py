@@ -1,7 +1,7 @@
 class UnionFind:
     def __init__(self, n):
-        self.parent = {v : v for v in n}
-        self.rank = {v : 1 for v in n}
+        self.parent = [i for i in range(n)]
+        self.rank = [1] * n
     
     def find(self, node): # return root parent 
         if node != self.parent[node]:
@@ -24,31 +24,26 @@ class UnionFind:
 
 class Solution:
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
-        n = set()
-        for account in accounts:
-            for i in range(1, len(account)):
-                n.add(account[i])
 
-        uf = UnionFind(n)
+        uf = UnionFind(len(accounts))
+        email_to_account = defaultdict(int)
 
-        for account in accounts:
-            for i in range(1, len(account)):
-                uf.union(account[1], account[i])
+        for i, account in enumerate(accounts):
+            for email in account[1:]:
+                if email in email_to_account:
+                    uf.union(email_to_account[email], i)
+                else:
+                    email_to_account[email] = i
 
-        account_name = {}
-        
-        unique_email_set = defaultdict(set)
-        for account in accounts:
-            for i in range(1, len(account)):
-                account_name[uf.find(account[i])] = account[0]
-                unique_email_set[uf.find(account[i])].add(account[i])
-        
-        for key in unique_email_set.keys():
-            unique_email_set[key] = sorted(unique_email_set[key])
+        unique_accounts = defaultdict(list)
+        for email, i in email_to_account.items():
+            parent = uf.find(i)
+            unique_accounts[parent].append(email)
         
         res = []
-        for key in unique_email_set.keys():
-            name = account_name[key]
-            res.append([name] + unique_email_set[key])
+        for parent, emails in unique_accounts.items():
+            account = email_to_account[emails[0]]
+            name = accounts[account][0]
+            res.append([name] + sorted(emails))
         
         return res
