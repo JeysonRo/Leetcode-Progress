@@ -1,37 +1,48 @@
+class UnionFind:
+    def __init__(self, n):
+        self.parent = {v : v for v in n}
+        self.rank = {v : 1 for v in n}
+    
+    def find(self, node): # return root parent 
+        if node != self.parent[node]:
+            self.parent[node] = self.find(self.parent[node])
+        return self.parent[node]
+
+    def union(self, a, b): # True if successful, False if already in same set
+        parenta = self.find(a)
+        parentb = self.find(b)
+        if parenta == parentb:
+            return False
+        self.parent[parentb] = parenta # ignoring rank
+        return True
+
 class Solution:
     def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
-        emails = defaultdict(set)
+        n = set()
+        for account in accounts:
+            for i in range(1, len(account)):
+                n.add(account[i])
 
-        for acc_details in accounts:
-            group = set()
-            group.add(acc_details[0])
-            for i in range(1, len(acc_details)):
-                group.add(acc_details[i])
-                if acc_details[i] not in emails:
-                    emails[acc_details[i]] = group
-                else: # prev account has email - union
-                    print("union: ", acc_details[i])
-                    emails[acc_details[i]].update(group)
-                    group = emails[acc_details[i]]
-                    for j in group:
-                        emails[j] = group
-        res = set()
-        for i in emails.values():
-            if tuple(i) not in res:
-                print(i,tuple(i))
-                res.add(tuple(i))
-        final = []
-        for i in res:
-            # find name
-            for j, n in enumerate(i):
-                if len(n) >= 4 and (n[-4] == "." or n[-3] == "."):
-                    continue
-                else:
-                    name = n
-                    index = j
-                    break
-            
-            final.append([name])
-            final[-1] += sorted(list(i)[:index] + list(i)[index+1:])
+        uf = UnionFind(n)
+
+        for account in accounts:
+            for i in range(1, len(account)):
+                uf.union(account[1], account[i])
+
+        account_name = {}
         
-        return final
+        unique_email_set = defaultdict(set)
+        for account in accounts:
+            for i in range(1, len(account)):
+                account_name[uf.find(account[i])] = account[0]
+                unique_email_set[uf.find(account[i])].add(account[i])
+        
+        for key in unique_email_set.keys():
+            unique_email_set[key] = sorted(unique_email_set[key])
+        
+        res = []
+        for key in unique_email_set.keys():
+            name = account_name[key]
+            res.append([name] + unique_email_set[key])
+        
+        return res
