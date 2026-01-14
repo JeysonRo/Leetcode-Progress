@@ -10,22 +10,24 @@ class Solution:
 
         def dfs(row, col):
             if row < 0 or row == M or col < 0 or col == N:
-                return 0
+                return False
             if grid[row][col] == 1:
-                return 1
+                return True
             if (row, col) in visited:
-                return 1
+                return False
             visited.add((row, col))
-            res = 0
-            res = (min(dfs(row+1, col), 
-                dfs(row-1, col), 
-                dfs(row, col+1), 
-                dfs(row, col-1)))
+            res = True
+            for direction in directions:
+                next_row, next_col = row + direction[0], col + direction[1]
+                if (next_row, next_col) not in visited:
+                    val = dfs(next_row, next_col)
+                    res = res and val
             return res
 
         for row in range(M):
             for col in range(N):
                 if grid[row][col] == 0 and (row, col) not in visited:
-                    res += dfs(row, col)
+                    if dfs(row, col):
+                        res += 1
         
         return res
