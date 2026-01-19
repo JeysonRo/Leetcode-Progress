@@ -9,7 +9,7 @@ class Solution:
         res = []
 
         for i, node in enumerate(parents):
-            if len(node) == 0:
+            if not node:
                 res.append(i)
         
         return res
