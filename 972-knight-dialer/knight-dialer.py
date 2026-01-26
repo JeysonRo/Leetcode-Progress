@@ -13,18 +13,21 @@ class Solution:
         digits[8] = [1,3]
         digits[9] = [2,4]
 
-        @lru_cache(None)
-        def dfs(digit, n):
-            if n == 1:
-                return 1
-            res = 0
-            for nei in digits[digit]:
-                res += dfs(nei, n-1)
-            return res
+        mod = (10**9 + 7)
 
-        res = 0
-        for i in range(10):
-            res += dfs(i, n)
-            res %= (10**9 + 7)
+        dp = [1 for i in range(10)]
+        cur = 1
+        while cur < n:
+            next_dp = [0 for i in range(10)]
+            for i in range(10):
+                for digit in digits[i]:
+                    dp[i] = dp[i] % mod
+                    next_dp[i] += dp[digit]
+            dp = next_dp
+            cur += 1
         
-        return res % (10**9 + 7)
+        res = 0
+        for val in dp:
+            res += val % mod
+
+        return res % mod
