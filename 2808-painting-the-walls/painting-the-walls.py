@@ -1,7 +1,7 @@
 class Solution:
     def paintWalls(self, cost: List[int], time: List[int]) -> int:
         
-        @lru_cache(None)
+        @cache
         def dfs(i, remain):
             if remain <= 0:
                 return 0
