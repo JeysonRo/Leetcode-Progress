@@ -7,7 +7,4 @@ class Solution:
             elif colors[i] == 'B' and colors[i-1] == 'B' and colors[i-2] == 'B':
                 count -= 1
         
-        if count > 0:
-            return True
-        else:
-            return False
+        return True if count > 0 else False
