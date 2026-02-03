@@ -1,1 +1,1 @@
-<h2>remove-colored-pieces-if-both-neighbors-are-the-same-color Notes</h2><hr>[ Time taken: 2 m 4 s ]
+<h2>remove-colored-pieces-if-both-neighbors-are-the-same-color Notes</h2><hr>[ Time taken: 1 m 34 s ]
