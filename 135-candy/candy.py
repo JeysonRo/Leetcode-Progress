@@ -1,10 +1,11 @@
 class Solution:
     def candy(self, ratings: List[int]) -> int:
         N = len(ratings)
-        res = [1 for i in range(N)]
+        res = [0 for i in range(N)]
 
-        @cache
         def recurs(i):
+            if res[i] != 0:
+                return res[i]
             if i > 0 and i < N - 1:
                 if ratings[i] > ratings[i+1] and ratings[i] > ratings[i-1]:
                     res[i] = max(recurs(i-1), recurs(i+1)) + 1
