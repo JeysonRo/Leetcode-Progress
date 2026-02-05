@@ -1,7 +1,7 @@
 class Solution:
     def mincostTickets(self, days: List[int], costs: List[int]) -> int:
         N = len(days)
-        dp = [0 for i in range(N)]
+        dp = {}
 
         if costs[2] < costs[1]:
             costs[1] = costs[2]
@@ -11,7 +11,7 @@ class Solution:
         def dfs(i):
             if i == N:
                 return 0
-            if dp[i] != 0:
+            if i in dp:
                 return dp[i]
 
             dp[i] = N * costs[2]
