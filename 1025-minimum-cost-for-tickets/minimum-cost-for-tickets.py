@@ -9,9 +9,6 @@ class Solution:
                 j = i
                 while j < N and days[j] < days[i] + d:
                     j += 1
-                if j >= 0:
-                    dp[i] = min(dp[i], c + dp[j])
-                else:
-                    dp[i] = c + 0
+                dp[i] = min(dp[i], c + dp[j])
         
         return dp[0]
