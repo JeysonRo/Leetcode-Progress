@@ -1,6 +1,7 @@
 class Solution:
     def mincostTickets(self, days: List[int], costs: List[int]) -> int:
         N = len(days)
+        initial = N * costs[2]
         dp = [0 for i in range(N)]
 
         if costs[2] < costs[1]:
@@ -14,7 +15,7 @@ class Solution:
             if dp[i] != 0:
                 return dp[i]
 
-            dp[i] = float("inf")
+            dp[i] = initial
             for d, c in zip([1, 7, 30], costs):
                 j = i
                 while j < len(days) and days[j] < days[i] + d:
