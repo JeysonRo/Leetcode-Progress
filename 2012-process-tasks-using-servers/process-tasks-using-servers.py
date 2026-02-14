@@ -7,8 +7,7 @@ class Solution:
         busy = [] # (time, index) of busy servers
         time = 0
         cur_task = 0
-        res = [-1 for i in range(len(tasks))]
-        task_queue = deque() # index of task
+        res = [0 for i in range(len(tasks))]
 
         for i in range(len(servers)):
             heapq.heappush(free, (servers[i], i))
