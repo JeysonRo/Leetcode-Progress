@@ -7,13 +7,17 @@ class Solution:
         for pre, course in prerequisites:
             adj[course].add(pre)
 
-        @cache
+        cache = {}
+
         def dfs(course):
+            if course in cache:
+                return cache[course]
             res = set()
             res = res.union(adj[course])
             for pre in adj[course]:
                 res = res.union(dfs(pre))
             adj[course] = set(res)
+            cache[course] = res
             return res
         
         for pre, course in queries:
