@@ -1,28 +1,22 @@
 class Solution:
     def letterCombinations(self, digits: str) -> List[str]:
-        if len(digits) <= 0:
-            return []
-        table = dict()
-        table['2'] = 'abc'
-        table['3'] = 'def'
-        table['4'] = 'ghi'
-        table['5'] = 'jkl'
-        table['6'] = 'mno'
-        table['7'] = 'pqrs'
-        table['8'] = 'tuv'
-        table['9'] = 'wxyz'
+        
+        table = {}
+        table['2'] = ['a','b','c']
+        table['3'] = ['d','e','f']
+        table['4'] = ['g','h','i']
+        table['5'] = ['j','k','l']
+        table['6'] = ['m','n','o']
+        table['7'] = ['p','q','r','s']
+        table['8'] = ['t','u','v']
+        table['9'] = ['w','x','y','z']
 
         res = []
-        cur = []
-
-        def dfs(i):
-            if i >= len(digits):
-                res.append(''.join(cur))
+        def recurs(cur, i):
+            if len(cur) == len(digits):
+                res.append(cur)
                 return
-            for j in table[digits[i]]:
-                cur.append(j)
-                dfs(i + 1)
-                cur.pop()
-        
-        dfs(0)
+            for letter in table[digits[i]]:
+                recurs(cur + letter, i+1)
+        recurs("", 0)
         return res
