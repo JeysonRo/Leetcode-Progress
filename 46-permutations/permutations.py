@@ -1,14 +1,15 @@
 class Solution:
     def permute(self, nums: List[int]) -> List[List[int]]:
-        res = []
-
-        def dfs(nums, perm):
-            if len(nums) == 0:
-                res.append(perm.copy())
-                return
-
-            for i, val in enumerate(nums):
-                dfs(nums[:i] + nums[i+1:], perm + [val])
         
-        dfs(nums, [])
+        res = []
+        def recurs(permutation, arr):
+            nonlocal res
+            for i in range(len(arr)):
+                subset = arr[:i] + arr[i+1:]
+                recurs(permutation + [arr[i]], subset)
+            if len(permutation) == len(nums):
+                res.append(permutation)
+            return
+
+        recurs([], nums)
         return res
