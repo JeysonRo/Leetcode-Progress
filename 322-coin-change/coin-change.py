@@ -6,7 +6,6 @@ class Solution:
             for denom in coins:
                 if i - denom >= 0:
                     dp[i] = min(dp[i], dp[i-denom] + 1)
-        print(dp)
         if dp[amount] > amount:
             return -1
         else:
