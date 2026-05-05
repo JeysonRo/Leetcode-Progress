@@ -1,17 +1,17 @@
 class Solution:
     def checkSubarraySum(self, nums: List[int], k: int) -> bool:
-        # prefix sum
-
+        remainders = set()
         cur_sum = 0
-        table = set()
-        prev_remainder = 0
+
         for i in range(len(nums)):
             cur_sum += nums[i]
-            sum_remainder = cur_sum % k
-            if sum_remainder in table:
+            remainder = cur_sum % k
+            if remainder in remainders:
                 return True
-
-            table.add(prev_remainder)
-            prev_remainder = sum_remainder
+            if i-1 >= 0:
+                remainders.add(prev)
+            if 0 not in remainders:
+                remainders.add(0)
+            prev = remainder
         
         return False
