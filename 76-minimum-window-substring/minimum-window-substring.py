@@ -1,36 +1,45 @@
 class Solution:
     def minWindow(self, s: str, t: str) -> str:
-        require = {}
-        char_bank = {}
-
+        requiredmap = {}
+        fulfilled = set()
+        minlen = len(s) + 1
+        answer = ""
         for c in t:
-            if c not in require:
-                require[c] = 0
-                char_bank[c] = 0
-            require[c] += 1
-        
-        
-        l, r = 0, 0
-        min_window = s
-        valid = 0
-        valid_string_found = False
-        while r < len(s):
-            if s[r] not in require:
-                r += 1
-                continue
-            else:
-                char_bank[s[r]] += 1
-                if char_bank[s[r]] == require[s[r]]:
-                    valid += 1
-            while valid >= len(require):
-                valid_string_found = True
-                if len(min_window) > r+1-l:
-                    min_window = s[l:r+1]
-                if s[l] in char_bank:
-                    char_bank[s[l]] -= 1
-                    if char_bank[s[l]] < require[s[l]]:
-                        valid -= 1
-                l += 1
-            r += 1
+            requiredmap[c] = 1 + requiredmap.get(c, 0)
 
-        return min_window if valid_string_found else ""
+        contained = {}
+
+        l = r = 0
+        
+        while r < len(s):
+            if len(fulfilled) < len(requiredmap):
+                if s[r] in requiredmap:
+                    contained[s[r]] = contained.get(s[r], 0) + 1
+                    if contained.get(s[r]) >= requiredmap.get(s[r]):
+                        if s[r] not in fulfilled:
+                            fulfilled.add(s[r])
+                r += 1
+            else: # fulfilled >= requiredmap
+                if r-l < minlen:
+                    minlen = r-l
+                    answer = s[l:r]
+                if s[l] in requiredmap:
+                    contained[s[l]] = contained.get(s[l], 0) - 1
+                    if contained.get(s[l]) < requiredmap.get(s[l]):
+                        if s[l] in fulfilled:
+                            fulfilled.remove(s[l])
+                l += 1
+
+        while l < len(s):
+            if len(fulfilled) >= len(requiredmap):
+                if r-l < minlen:
+                    minlen = r-l
+                    answer = s[l:r]
+                if s[l] in requiredmap:
+                    contained[s[l]] = contained.get(s[l], 0) - 1
+                    if contained.get(s[l]) < requiredmap.get(s[l]):
+                        if s[l] in fulfilled:
+                            fulfilled.remove(s[l])
+            l += 1
+
+        return answer
