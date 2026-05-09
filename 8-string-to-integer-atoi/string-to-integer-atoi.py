@@ -1,32 +1,29 @@
+import re
 class Solution:
     def myAtoi(self, s: str) -> int:
-        i = 0
-        digits = set(['0','1','2','3','4','5','6','7','8','9'])
-        res = 0
-        while i < len(s) and s[i] == " ":
-            i += 1
-        if i < len(s) and s[i] == "-":
-            negative = True
-            i += 1
-        elif i < len(s) and s[i] == "+":
-            negative = False
-            i += 1
-        else:
+        match = re.search(r'(\A\s*)([-+]?)(0*)(\d*)', s)
+        # group(0) whitespace
+        # group(1) sign 
+        # group(2) leading zeros
+        # group(3) number
+        
+        left_limit = -2**31
+        right_limit = 2**31 - 1
+        negative = True
+        if match.groups()[1] != '-':
             negative = False
         
-        while i < len(s) and s[i] == "0":
-            i += 1
-
-        while i < len(s) and s[i] in digits:
-            res = res*10 + int(s[i])
-            i += 1
+        val = 0
+        number = match.groups()[3]
+        for i in range(len(number)):
+            val *= 10
             if negative:
-                if res >= 2**31:
-                    return -2**31
-            elif res >= 2**31-1:
-                return 2**31-1
+                val -= int(number[i])
+            else:
+                val += int(number[i])
+            if not negative and val >= right_limit:
+                return right_limit
+            if negative and val <= left_limit:
+                return left_limit
         
-        if negative:
-            return -res
-        else:
-            return res
+        return val
