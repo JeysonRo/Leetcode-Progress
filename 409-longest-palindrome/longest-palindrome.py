@@ -1,14 +1,20 @@
 class Solution:
     def longestPalindrome(self, s: str) -> int:
-        bank = {}
+        letter_bank = {}
 
         for c in s:
-            bank[c] = bank.get(c, 0) + 1
+            letter_bank[c] = 1 + letter_bank.get(c, 0)
         
-        odd = False
         res = 0
-        for val in bank.values():
-            res += val - (val % 2)
-            if val % 2 == 1:
+        odd = False
+        for i in letter_bank.keys():
+            if letter_bank[i] >= 2:
+                val = letter_bank[i] // 2
+                letter_bank[i] = letter_bank[i] % 2
+                res += val * 2
+            
+            if not odd and letter_bank[i] > 0:
+                res += 1
                 odd = True
-        return res+1 if odd else res
+        
+        return res
