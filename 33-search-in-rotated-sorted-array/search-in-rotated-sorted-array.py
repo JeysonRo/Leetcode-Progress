@@ -1,43 +1,34 @@
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
-        l, r = 0, len(nums) - 1
-
-        # find rotation
-        while l <= r:
-            i = (r - l) // 2 + l
-
-            if nums[i] == target:
-                return i
-            elif nums[i] > nums[-1]:
-                l = i + 1
-            elif nums[i] <= nums[-1]:
-                r = i - 1
-        split = i
-        #search left
+        # find pivot
         l = 0
-        r = split - 1
-        while l <= r:
-            i = (r - l) // 2 + l
-
-            if nums[i] == target:
-                return i
-            elif nums[i] > target:
-                r = i - 1
-            elif nums[i] < target:
-                l = i + 1
-
-        #search right
-        l = split + 1
         r = len(nums) - 1
-        while l <= r:
-            i = (r - l) // 2 + l
 
+        while l < r:
+            i = l + (r-l) // 2
+            if nums[0] > nums[i]:
+                r = i
+            else:
+                l = i + 1
+        
+        right_partition = r
+
+        # search partitions
+        if target >= nums[right_partition] and target <= nums[-1]:
+            l = right_partition
+            r = len(nums) - 1
+        else:
+            l = 0
+            r = right_partition - 1
+        
+        #binary search
+        while l <= r:
+            i = l + (r-l) // 2
             if nums[i] == target:
                 return i
-            elif nums[i] > target:
+            if nums[i] > target:
                 r = i - 1
-            elif nums[i] < target:
+            else:
                 l = i + 1
-
+        
         return -1
-            
