@@ -4,10 +4,8 @@ class Solution:
             return 0
         
         queue = [] # (time, profit)
-        dp = {} # (time, profit)
 
         jobs = [[startTime[i], endTime[i], profit[i]] for i in range(len(profit))]
-
         jobs.sort(key=lambda x : (x[0], x[1], x[2]))
 
         i = 0
@@ -26,8 +24,3 @@ class Solution:
             cur_profit = max(cur_profit, job_profit)
         
         return cur_profit
-
-        # cur_profit = 20
-        # time = 3
-        # 5, 20
-        # 10, 120
